@@ -27,9 +27,7 @@ function Home() {
       <Grid.Row>
         {user && (
           <Grid.Column>
-            <PostForm>
-
-            </PostForm>
+            <PostForm />
           </Grid.Column>
         )}
         {loading ? (
