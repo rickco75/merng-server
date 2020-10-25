@@ -7,12 +7,16 @@ import PostCard from '../components/PostCard'
 import PostForm from '../components/PostForm'
 import { FETCH_POSTS_QUERY } from '../util/graphql'
 
-function Home() {
+function Home(props) {
   const {
     loading,
     data
   } = useQuery(FETCH_POSTS_QUERY);
   
+  function deletePostCallback() {
+    props.history.push('/')
+  }
+
   const { user } = useContext(AuthContext)
   // const { 
   //         loading, 
@@ -37,7 +41,7 @@ function Home() {
               {
                 data.getPosts && data.getPosts.map(post => (
                   <Grid.Column key={post.id} style={{marginBottom: 20}}>
-                    <PostCard post={post} />
+                    <PostCard callback={deletePostCallback} post={post} />
                   </Grid.Column>
                 ))
               }

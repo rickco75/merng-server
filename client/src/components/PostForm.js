@@ -28,7 +28,6 @@ function PostForm() {
     },
     onError(err) {
       console.log(err.graphQLErrors[0].extensions.exception.errors)
-      //setErrors(err.graphQLErrors[0].extensions.exception.errors)
     }
   })
 
