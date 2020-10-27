@@ -1,4 +1,6 @@
-const { ApolloServer, PubSub } = require('apollo-server');
+const { ApolloServer, PubSub } = require('apollo-server-express');
+const express = require('express')
+
 const mongoose = require('mongoose');
 
 const typeDefs = require('./graphql/typeDefs');
@@ -15,13 +17,21 @@ const server = new ApolloServer({
     context: ( { req } ) => ( { req, pubSub }) 
 });
 
+const app = express()
+server.applyMiddleware({ app})
+
+app.use(express.static('public'))
+
 mongoose.connect(MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('MongoDB Connected')
-        return server.listen({ port: PORT })
-        .then(res => {
-            console.log(`Server running at ${res.url}`)
+        app.listen( { port: PORT }, () => {
+          console.log(`Server running at port: ${PORT}`)
         })
+        // return server.listen({ port: PORT })
+        // .then(res => {
+        //     console.log(`Server running at ${res.url}`)
+        // })
     })
     .catch(err => {
       console.error(err)
